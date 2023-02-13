@@ -2,7 +2,7 @@ import scipy.io as sio
 import os
 import numpy as np
 
-root = './datasets/ood_data/svhn'
+root = './datasets/ood_datasets/svhn'
 filename = 'test_32x32.mat'
 
 loaded_mat = sio.loadmat(os.path.join(root, filename))

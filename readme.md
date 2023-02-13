@@ -26,9 +26,9 @@ and de-duplicated concepts overlapped with ImageNet-1k.
 For iNaturalist, SUN, and Places, we have sampled 10,000 images from the selected concepts for each dataset,
 which can be download via the following links:
 ```bash
-wget http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/iNaturalist.tar.gz
-wget http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/SUN.tar.gz
-wget http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/Places.tar.gz
+wget https://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/iNaturalist.tar.gz
+wget https://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/SUN.tar.gz
+wget https://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/Places.tar.gz
 ```
 
 For Textures, we use the entire dataset, which can be downloaded from their
