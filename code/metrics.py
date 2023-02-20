@@ -59,7 +59,7 @@ class BinaryMetrics(BinaryCurves):
   """
   def fpr_at_95(self) -> float:
     fpr, tpr, _ = self.compute_roc()
-    return fpr[tpr > 0.95].min().item()
+    return fpr[tpr <= 0.95].max().item()
 
   def detection_err(self) -> float:
     fpr, tpr, _ = self.compute_roc()
@@ -93,7 +93,7 @@ class BinaryMetrics(BinaryCurves):
     p_out, r_out, _ = res['PRC_Out']
     
     metrics = ({
-      'FPR@95': fpr[tpr > 0.95].min().item(),
+      'FPR@95': fpr[tpr <= 0.95].max().item(),
       'DTErr': ((1-tpr+fpr)/2).min().item(),
       'AUROC': torch.trapz(tpr, fpr).item(),
       'AUPR_In': -torch.trapz(p_in, r_in).item(),
