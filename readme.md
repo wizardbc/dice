@@ -82,6 +82,46 @@ Run `./demo-imagenet.sh`.
 
 Run `./demo-cifar.sh`.
 
+```
+ID: CIFAR-10
+No Sparsity
+Files already downloaded and verified
+Processing in-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+ OOD detection method: energy
+              FPR    AUROC  AUIN  
+SVHN          40.59  93.99  95.33
+LSUN           3.82  99.15  99.25
+LSUN_resize    9.28  98.12  98.49
+iSUN          10.06  98.07  98.60
+dtd           56.29  86.42  89.87
+places365     39.73  91.81  38.50
+AVG           26.63  94.59  86.67
+With Sparsity p=90
+Files already downloaded and verified
+Processing in-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+Processing out-of-distribution images
+ OOD detection method: energy
+              FPR    AUROC  AUIN  
+SVHN          29.61  94.66  95.20
+LSUN           0.38  99.90  99.89
+LSUN_resize    4.42  99.03  99.11
+iSUN           5.14  98.97  99.16
+dtd           45.83  86.97  88.82
+places365     45.05  90.15  33.33
+AVG           21.74  94.95  85.92
+```
+
 ## Citation
 
 If you use our codebase, please cite our work:

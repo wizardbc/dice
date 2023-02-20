@@ -167,7 +167,7 @@ def compute_traditional_ood(base_dir, in_dataset, out_datasets, method, name):
     # print('Natural OOD')
     # print('nat_in vs. nat_out')
 
-    known = np.loadtxt('{base_dir}/{in_dataset}/{method}/{name}/nat/in_scores.txt'.format(base_dir=base_dir, in_dataset=in_dataset, method=method, name=name), delimiter='\n')
+    known = np.loadtxt('{base_dir}/{in_dataset}/{method}/{name}/nat/in_scores.txt'.format(base_dir=base_dir, in_dataset=in_dataset, method=method, name=name), delimiter=None)
 
     known_sorted = np.sort(known)
     num_k = known.shape[0]
@@ -182,7 +182,7 @@ def compute_traditional_ood(base_dir, in_dataset, out_datasets, method, name):
     total = 0.0
 
     for out_dataset in out_datasets:
-        novel = np.loadtxt('{base_dir}/{in_dataset}/{method}/{name}/nat/{out_dataset}/out_scores.txt'.format(base_dir=base_dir, in_dataset=in_dataset, method=method, name=name, out_dataset=out_dataset), delimiter='\n')
+        novel = np.loadtxt('{base_dir}/{in_dataset}/{method}/{name}/nat/{out_dataset}/out_scores.txt'.format(base_dir=base_dir, in_dataset=in_dataset, method=method, name=name, out_dataset=out_dataset), delimiter=None)
 
         in_cond = (novel>threshold).astype(np.float32)
         total += novel.shape[0]

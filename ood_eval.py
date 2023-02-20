@@ -98,12 +98,12 @@ def eval_ood_detector(args, mode_args):
     ])
 
     if in_dataset == "CIFAR-10":
-        testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
+        testset = torchvision.datasets.CIFAR10(root='./datasets/id_datasets/', train=False, download=True, transform=transform_test)
         testloaderIn = torch.utils.data.DataLoader(testset, batch_size=args.batch_size, shuffle=True, num_workers=2)
         num_classes = 10
 
     elif in_dataset == "CIFAR-100":
-        testset = torchvision.datasets.CIFAR100(root='./data', train=False, download=True, transform=transform_test)
+        testset = torchvision.datasets.CIFAR100(root='./datasets/id_datasets/', train=False, download=True, transform=transform_test)
         testloaderIn = torch.utils.data.DataLoader(testset, batch_size=args.batch_size, shuffle=True, num_workers=2)
         num_classes = 100
 
