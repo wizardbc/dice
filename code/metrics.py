@@ -143,20 +143,7 @@ class Runner:
       self.metrics.confmat = self._id_confmat
     self.metrics._update_count = self._id_update_count
 
-
   def run(self, ood_loader, prog_bar:bool=True, postfix:bool=False):
     self._reset_metrics()
     self.run_over_dl(ood_loader, ood=True, prog_bar=prog_bar, postfix=postfix)
     return self.metrics.compute(metrics=True)
-
-def avg_metrics(dicts_metrics:Tuple[Dict]):
-  res = {}
-  for d in dicts_metrics:
-    for k, v in d.items():
-      if k in res.keys():
-        res[k].append(v)
-      else:
-        res[k] = [v]
-  for k, v in res.items():
-    res[k] = np.mean(v)
-  return res
