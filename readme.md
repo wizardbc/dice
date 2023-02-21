@@ -83,43 +83,52 @@ Run `./demo-imagenet.sh`.
 Run `./demo-cifar.sh`.
 
 ```
-ID: CIFAR-10
+ID: CIFAR-100
 No Sparsity
-Files already downloaded and verified
-Processing in-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
  OOD detection method: energy
               FPR    AUROC  AUIN  
-SVHN          40.59  93.99  95.33
+SVHN          87.45  81.86  86.31
+LSUN          14.71  97.43  97.63
+LSUN_resize   70.67  80.13  81.41
+iSUN          74.55  78.95  81.75
+dtd           84.29  71.01  76.50
+places365     78.22  78.15  14.17
+AVG           68.32  81.26  72.96
+
+With Sparsity p=90
+ OOD detection method: energy
+              FPR    AUROC  AUIN  
+SVHN          59.24  88.57  90.33
+LSUN           0.91  99.74  99.74
+LSUN_resize   51.64  89.32  90.29
+iSUN          49.46  89.51  91.00
+dtd           61.40  77.12  79.35
+places365     80.27  77.47  14.04
+AVG           50.49  86.96  77.46
+
+
+ID: CIFAR-10
+No Sparsity
+ OOD detection method: energy
+              FPR    AUROC  AUIN  
+SVHN          40.58  93.99  95.33
 LSUN           3.82  99.15  99.25
 LSUN_resize    9.28  98.12  98.49
 iSUN          10.06  98.07  98.60
 dtd           56.29  86.42  89.87
 places365     39.73  91.81  38.50
 AVG           26.63  94.59  86.67
+
 With Sparsity p=90
-Files already downloaded and verified
-Processing in-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
-Processing out-of-distribution images
  OOD detection method: energy
               FPR    AUROC  AUIN  
-SVHN          29.61  94.66  95.20
+SVHN          29.64  94.66  95.20
 LSUN           0.38  99.90  99.89
 LSUN_resize    4.42  99.03  99.11
 iSUN           5.14  98.97  99.16
-dtd           45.83  86.97  88.82
-places365     45.05  90.15  33.33
-AVG           21.74  94.95  85.92
+dtd           45.85  86.97  88.82
+places365     45.06  90.15  33.33
+AVG           21.75  94.95  85.92
 ```
 
 ## Citation
