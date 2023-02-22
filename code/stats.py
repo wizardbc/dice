@@ -1,5 +1,7 @@
 from typing import Dict, Optional, Tuple, Callable
 
+import numpy as np
+
 import torch
 from torch.utils.data import DataLoader
 from torchvision.models.feature_extraction import get_graph_node_names, create_feature_extractor
@@ -28,17 +30,19 @@ class Stats:
           self.features[k].append(v.cpu())
         self.target.append(labels.cpu())
 
-  def compute(self, target:int=None):
+  def compute(self, target:int=None, std:bool=False):
     features = {
       k: torch.concat(v) if target is None else torch.concat(v)[torch.concat(self.target) == target]
       for k, v in self.features.items()
     }
-    mean = {
+    ret_avg = {
       k: v.mean(dim=(0,2,3)) if v.dim()==4 else v.mean(dim=0)
       for k, v in features.items()
     }
-    std = {
-      k: v.std(dim=(0,2,3)) if v.dim()==4 else v.std(dim=0)
-      for k, v in features.items()
-    }
-    return mean, std
+    if std:
+      ret_std = {
+        k: v.std(dim=(0,2,3)) if v.dim()==4 else v.std(dim=0)
+        for k, v in features.items()
+      }
+      return ret_avg, ret_std
+    return ret_avg
