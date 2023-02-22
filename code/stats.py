@@ -13,6 +13,7 @@ class Stats:
     self.model = create_feature_extractor(model, return_nodes)
     self.device = device
     self.features = {v: [] for v in return_nodes.values()}
+    self.target = []
 
   def run(self, dataloader:DataLoader, prog_bar:bool=True):
     if prog_bar:
@@ -20,17 +21,24 @@ class Stats:
     else:
       pbar = dataloader
     with torch.no_grad():
-      for imgs, _ in pbar:
+      for imgs, labels in pbar:
         imgs = imgs.to(self.device)
         features = self.model(imgs)
         for k, v in features.items():
-          self.features[k].append(v)
+          self.features[k].append(v.cpu())
+        self.target.append(labels.cpu())
 
-  def compute(self):
-    features = {}
-    for k, v in self.features.items():
-      features[k] = torch.concat(v).mean(dim=0)
-    return {
-      k: v.cpu().numpy() if len(v.shape)==1 else v.flatten(start_dim=1).mean(dim=1).cpu().numpy()
+  def compute(self, target:int=None):
+    features = {
+      k: torch.concat(v) if target is None else torch.concat(v)[torch.concat(self.target) == target]
+      for k, v in self.features.items()
+    }
+    mean = {
+      k: v.mean(dim=(0,2,3)) if v.dim()==4 else v.mean(dim=0)
       for k, v in features.items()
     }
+    std = {
+      k: v.std(dim=(0,2,3)) if v.dim()==4 else v.std(dim=0)
+      for k, v in features.items()
+    }
+    return mean, std
