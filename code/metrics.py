@@ -1,7 +1,5 @@
 from typing import Dict, Optional, Tuple, Callable
 
-import numpy as np
-
 import torch
 from torch.utils.data import DataLoader
 from torch import Tensor
@@ -83,11 +81,9 @@ class BinaryMetrics(BinaryCurves):
       plt.plot(r.cpu(), p.cpu(), **plot_kwargs)
     return -torch.trapz(p, r).item()
 
-  def compute(self, metrics=False) -> Dict[str, Tuple[Tensor, Tensor, Tensor]]|Dict[str, float]:
-    res = super().compute()
-    if not metrics:
-      return res
-
+  def table(self) -> Dict[str, Tuple[Tensor, Tensor, Tensor]]|Dict[str, float]:
+    res = self.compute()
+    
     fpr, tpr, _ = res['ROC']
     p_in, r_in, _ = res['PRC_In']
     p_out, r_out, _ = res['PRC_Out']

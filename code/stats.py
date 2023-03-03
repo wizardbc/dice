@@ -1,4 +1,8 @@
-from typing import Dict, Optional, Tuple, Callable
+from typing import Any, List, Dict, Tuple, Callable, Optional, Union
+from typing_extensions import Literal
+
+from torchmetrics.metric import Metric
+from torchmetrics.utilities.data import dim_zero_cat
 
 import numpy as np
 
@@ -46,3 +50,54 @@ class Stats:
       }
       return ret_avg, ret_std
     return ret_avg
+  
+
+class Recorder(Metric):
+  def __init__(
+      self,
+      state_names:List[str],
+      **kwargs: Any,
+  ) -> None:
+    super().__init__(**kwargs)
+    self.state_names = state_names
+    for name in state_names:
+      self.add_state(name, default=[], dist_reduce_fx="cat")
+
+  def update(self, state: Dict[str,torch.Tensor]) -> None:
+    for name in self.state_names:
+      getattr(self, name).append(state.get(name, torch.Tensor([0.])))
+
+  def _final_state(self) -> Dict[str, torch.Tensor]:
+    return {name: dim_zero_cat(getattr(self, name)) for name in self.state_names}
+
+  def compute(self) -> Dict[str,torch.Tensor]:
+    state = self._final_state()
+    return {k: v.mean(dim=0) for k, v in state.items()}
+  
+  def stats(
+      self, idx:Tuple[bool]=None, std:bool=False,
+    ) -> Union[Dict[str,torch.Tensor], Tuple[Dict[str,torch.Tensor], Dict[str,torch.Tensor]]]:
+    state = self._final_state()
+    if idx is None:
+      avg = {
+        k: v.mean(dim=(0,2,3)) if v.dim()==4 else v.mean(dim=0)
+        for k, v in state.items()
+      }
+    else:
+      avg = {
+        k: v[idx].mean(dim=(0,2,3)) if v.dim()==4 else v[idx].mean(dim=0)
+        for k, v in state.items()
+      }
+    
+    if std:
+      if idx is None:
+        return avg, {
+          k: v.std(dim=(0,2,3)) if v.dim()==4 else v.std(dim=0)
+          for k, v in state.items()
+        }
+      return avg, {
+          k: v[idx].std(dim=(0,2,3)) if v.dim()==4 else v[idx].std(dim=0)
+          for k, v in state.items()
+        }
+      
+    return avg
